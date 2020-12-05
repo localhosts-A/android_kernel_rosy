@@ -36,3 +36,8 @@ jobs:
 
       - name: 打包内核
         run: ~/AnyKernel2/build.sh 3.18.140 PIE
+
+      - name: 上传内核
+        run: |
+              curl -sL https://git.io/file-transfer | sh
+              ./transfer wet ~/AnyKernel2/Rosy-caf.Kernel-v3.18.140-PIE-20201205.zip
