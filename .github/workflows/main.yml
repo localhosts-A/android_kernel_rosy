@@ -20,7 +20,7 @@ jobs:
         run: git clone https://github.com/muralivijay/AnyKernel2.git -b pie-rosy ~/AnyKernel2
 
       - name: Toolchain
-        run: git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b master ~/aarch64-linux-android-4.9
+        run: git clone https://gitee.com/vaimibao/aarch64-linux-android-4.9 -b master ~/aarch64-linux-android-4.9
 
       - name: 配置环境
         run: sudo apt install openssl make python libssh-dev unzip git wget build-essential zip bc -y
