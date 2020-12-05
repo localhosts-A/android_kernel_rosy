@@ -1,0 +1,41 @@
+
+name: Github Actions Build Kernel
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Any kernel
+        run: git clone https://github.com/muralivijay/AnyKernel2.git -b pie-rosy ~/AnyKernel2
+
+      - name: Toolchain
+        run: git clone https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 -b master ~/aarch64-linux-android-4.9
+
+      - name: 配置环境
+        run: apt install openssl make python libssh-dev unzip git wget build-essential zip bc -y
+
+      - name: 清除残留文件
+        run: make clean && make mrproper && ~/AnyKernel2/cleanup.sh
+
+      - name: 设置变量
+        run: export ARCH=arm64 && export SUBARCH=arm64 && export CROSS_COMPILE=~/aarch64-linux-android-4.9/bin/aarch64-linux-android-
+
+      - name: 编译配置文件
+        run: make rosy_defconfig
+
+      - name: 编译内核
+        run: make -j$( nproc --all )
+
+      - name: 打包内核
+        run: ~/AnyKernel2/build.sh 3.18.140 PIE
