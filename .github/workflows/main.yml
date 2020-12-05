@@ -28,14 +28,11 @@ jobs:
       - name: 清除残留文件
         run: make clean && make mrproper && ~/AnyKernel2/cleanup.sh
 
-      - name: 设置变量
-        run: export ARCH=arm64 && export SUBARCH=arm64 && export CROSS_COMPILE=~/aarch64-linux-android-4.9/bin/aarch64-linux-android-
-
       - name: 编译配置文件
-        run: make rosy_defconfig
+        run: export ARCH=arm64 && export SUBARCH=arm64 && export CROSS_COMPILE=~/aarch64-linux-android-4.9/bin/aarch64-linux-android- && make rosy_defconfig
 
       - name: 编译内核
-        run: make -j$( nproc --all )
+        run: export ARCH=arm64 && export SUBARCH=arm64 && export CROSS_COMPILE=~/aarch64-linux-android-4.9/bin/aarch64-linux-android- && make -j$( nproc --all )
 
       - name: 打包内核
         run: ~/AnyKernel2/build.sh 3.18.140 PIE
